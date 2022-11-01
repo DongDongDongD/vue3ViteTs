@@ -27,5 +27,15 @@ export default defineConfig({
         rewrite: (path: string) => path.replace(/^\/api/, '')
       }
     }
+  },
+  // 配置less全局样式
+  css: {
+    // css预处理器
+    preprocessorOptions: {
+      less: {
+        charset: false,
+        additionalData: '@import "./src/assets/style/global.less";'
+      }
+    }
   }
 });
