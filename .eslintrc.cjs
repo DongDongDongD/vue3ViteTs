@@ -20,10 +20,12 @@ module.exports = {
   plugins: ['vue', '@typescript-eslint'],
   rules: {
     'vue/multi-word-component-names': [
+      // 忽略文件命名index要求大写
       'error',
       {
         ignores: ['index']
       }
-    ]
+    ],
+    '@typescript-eslint/no-explicit-any': 'off' // 关闭any类型警告
   }
 };

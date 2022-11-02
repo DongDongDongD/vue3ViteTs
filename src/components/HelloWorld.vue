@@ -20,9 +20,14 @@
     <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
     in your IDE for a better DX
   </p> -->
+  <el-input clearable v-model="msg"></el-input>
+  <!-- <el-icon class="is-loading"></el-icon -->
   <p class="read-the-docs">C o learn more</p>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  import { ref } from 'vue';
+  const msg = ref('123');
+</script>
 <style lang="less" scoped>
   .test {
     color: @color;

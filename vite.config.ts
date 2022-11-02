@@ -1,16 +1,14 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import * as path from 'path';
-
+import Icons from 'unplugin-icons/vite';
+import IconsResolver from 'unplugin-icons/resolver';
+import AutoImport from 'unplugin-auto-import/vite'; // 用于自动引入组件样式
+import Components from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 // https://vitejs.dev/config/
+const pathSrc = path.resolve(__dirname, 'src');
 export default defineConfig({
-  plugins: [vue()],
-  // 别名
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'srv')
-    }
-  },
   // 配置端口 转发
   server: {
     port: 8888,
@@ -28,6 +26,41 @@ export default defineConfig({
       }
     }
   },
+
+  // 别名
+  resolve: {
+    alias: {
+      '@': pathSrc
+    }
+  },
+  plugins: [
+    vue(),
+    AutoImport({
+      resolvers: [
+        // 自动导入 Element Plus 组件
+        ElementPlusResolver(),
+        // 自动导入图标组件
+        IconsResolver({
+          prefix: 'Icon'
+        })
+      ],
+      dts: path.resolve(pathSrc, 'auto-import.d.ts')
+    }),
+    Components({
+      resolvers: [
+        // 自动注册 Element Plus 组件
+        ElementPlusResolver(),
+        // 自动注册图标组件
+        IconsResolver({
+          enabledCollections: ['ep']
+        })
+      ],
+      dts: path.resolve(pathSrc, 'comments.d.ts')
+    }),
+    Icons({
+      autoInstall: true
+    })
+  ],
   // 配置less全局样式
   css: {
     // css预处理器
@@ -35,6 +68,15 @@ export default defineConfig({
       less: {
         charset: false,
         additionalData: '@import "./src/assets/style/global.less";'
+      }
+    }
+  },
+  build: {
+    // 生产环境去除console debugger等
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
       }
     }
   }
