@@ -9,6 +9,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 // https://vitejs.dev/config/
 const pathSrc = path.resolve(__dirname, 'src');
 export default defineConfig({
+  // 打包地址
+  base: './',
   // 配置端口 转发
   server: {
     port: 8888,
@@ -26,7 +28,6 @@ export default defineConfig({
       }
     }
   },
-
   // 别名
   resolve: {
     alias: {
@@ -72,6 +73,10 @@ export default defineConfig({
     }
   },
   build: {
+    minify: 'terser',
+    target: 'es2015',
+    brotliSize: false, // 默认为true 是否计算包的大小
+    chunkSizeWarningLimit: 2000, // chunk大小警告限制
     // 生产环境去除console debugger等
     terserOptions: {
       compress: {
